@@ -9,7 +9,7 @@ public class Board {
         firstCompleteCity = firstCompleteCity.orElse(() -> Option.of(city));
     }
 
-    public boolean isFirst(City city) {
+    public boolean estPremiereVilleFinie(City city) {
         return firstCompleteCity.contains(city);
     }
 }

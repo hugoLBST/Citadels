@@ -9,9 +9,12 @@ import io.vavr.collection.List;
 
 import static com.montaury.citadels.district.District.GREAT_WALL;
 import static com.montaury.citadels.district.District.HAUNTED_CITY;
-
 public class City {
     private static final int END_GAME_DISTRICT_NUMBER = 7;
+    private static final int BONUS_SCORE_UN_QUARTIER_DE_CHAQUE_TYPE = 3;
+    private static final int BONUS_SCORE_PREMIER_FINI = 2;
+    private static final int BONUS_SCORE_VILLE_COMPLETE = 2;
+
     private final Board board;
     private List<Card> districtCards = List.empty();
 
@@ -31,22 +34,13 @@ public class City {
     }
 
     public int score(Possession possession) {
-        int score = 0;
-        for (int a = 0; a < districts().size(); a++) {
-            score += districts().get(a).cost();
-        }
-
-        score = score + districtsScoreBonus(possession);
-        if (winsAllColorBonus()) {
-            score += 3;
-        }
-        if (board.isFirst(this)) {
-            score += (2);
-        }
-        if (isComplete()) {
-            score += (2);
-        }
-        return score;
+        Score score = new Score();
+        for(District district : districts()) score.setValeur(score.getValeur() + district.cost());
+        score.setValeur(score.getValeur() + districtsScoreBonus(possession));
+        if (gagneUnQuartierDeChaqueType()) score.setValeur(score.getValeur() + BONUS_SCORE_UN_QUARTIER_DE_CHAQUE_TYPE);
+        if (board.estPremiereVilleFinie(this)) score.setValeur(score.getValeur() + BONUS_SCORE_PREMIER_FINI);
+        if (isComplete()) score.setValeur(score.getValeur() + BONUS_SCORE_VILLE_COMPLETE);
+        return score.getValeur();
     }
 
     private int districtsScoreBonus(Possession possession) {
@@ -68,7 +62,7 @@ public class City {
         return score;
     }
 
-    private boolean winsAllColorBonus() {
+    private boolean gagneUnQuartierDeChaqueType() {
         int districtTypes[] = new int[DistrictType.values().length];
         for (District d : districts()) {
             districtTypes[d.districtType().ordinal()]++;

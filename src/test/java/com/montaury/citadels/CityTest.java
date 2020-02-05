@@ -1,7 +1,6 @@
 package com.montaury.citadels;
 
 import com.montaury.citadels.district.Card;
-import com.montaury.citadels.district.District;
 import io.vavr.collection.HashSet;
 import org.junit.Test;
 
@@ -12,7 +11,7 @@ public class CityTest {
     public void test_cout_construction_quartiers(){
         Board board = new Board();
         City city = new City(board);
-        Possession possession = new Possession(0,null); // 0 or donc 0 score
+        Possession possession = new Possession(0,HashSet.empty()); // 0 or donc 0 score
         city.buildDistrict(Card.MANOR_5); // +3 score
         city.buildDistrict(Card.WATCHTOWER_2); // +1 score
         city.buildDistrict(Card.TAVERN_5); // +1 score
@@ -23,7 +22,7 @@ public class CityTest {
     public void test_quartiers_5_types(){
         Board board = new Board();
         City city = new City(board);
-        Possession possession = new Possession(0,null); // 0 or donc 0 score
+        Possession possession = new Possession(0,HashSet.empty()); // 0 or donc 0 score
         city.buildDistrict(Card.MANOR_5); // +3 score, type : NOBLE
         city.buildDistrict(Card.WATCHTOWER_2); // +1 score, type : MILITARY
         city.buildDistrict(Card.TAVERN_5); // +1 score, type : TRADE
@@ -36,7 +35,7 @@ public class CityTest {
     public void test_premier_joueur(){
         Board board = new Board();
         City city = new City(board);
-        Possession possession = new Possession(0,null); // 0 or donc 0 score
+        Possession possession = new Possession(0,HashSet.empty()); // 0 or donc 0 score
         city.buildDistrict(Card.MANOR_5); // +3 score
         city.buildDistrict(Card.WATCHTOWER_2); // +1 score
         city.buildDistrict(Card.TAVERN_5); // +1 score
@@ -52,7 +51,7 @@ public class CityTest {
     public void test_pas_premier_joueur(){
         Board board = new Board();
         City city1 = new City(board);
-        Possession possession1 = new Possession(0,null); // 0 or donc 0 score
+        Possession possession1 = new Possession(0,HashSet.empty()); // 0 or donc 0 score
         city1.buildDistrict(Card.MANOR_5); // +3 score
         city1.buildDistrict(Card.WATCHTOWER_2); // +1 score
         city1.buildDistrict(Card.TAVERN_5); // +1 score
@@ -61,7 +60,7 @@ public class CityTest {
         city1.buildDistrict(Card.TOWN_HALL_1); // +5 score
         city1.buildDistrict(Card.TOWN_HALL_2); // +5 score
         City city2 = new City(board);
-        Possession possession2 = new Possession(0,null); // 0 or donc 0 score
+        Possession possession2 = new Possession(0,HashSet.empty()); // 0 or donc 0 score
         city2.buildDistrict(Card.MANOR_5); // +3 score
         city2.buildDistrict(Card.WATCHTOWER_2); // +1 score
         city2.buildDistrict(Card.TAVERN_5); // +1 score
