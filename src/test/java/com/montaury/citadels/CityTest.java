@@ -76,8 +76,33 @@ public class CityTest {
         assertThat(score).isEqualTo(21); // 19 points + 2 points -> 21 au total
 
     }
+
     @Test
-    public void test_bonus_merveilles(){
+    public void test_bonus_plus_2_merveilles_Dragon_gate(){
+        Possession possession = new Possession(10, HashSet.empty()); // 10 or
+        city.buildDistrict(Card.DRAGON_GATE); // 6 + 2 points bonus
+        int score = city.score(possession);
+        assertThat(score).isEqualTo(8);
+    }
+
+    @Test
+    public void test_bonus_plus_2_merveilles_University(){
+        Possession possession = new Possession(10, HashSet.empty()); // 10 or
+        city.buildDistrict(Card.UNIVERSITY); // 6 + 2 points bonus
+        int score = city.score(possession);
+        assertThat(score).isEqualTo(8);
+    }
+
+    @Test
+    public void test_bonus_plus_10_merveilles_Treasury(){
+        Possession possession = new Possession(10, HashSet.empty()); // 10 or donc +10 score
+        city.buildDistrict(Card.TREASURY); // 5 + 10 points vu que 10 pièces d'or
+        int score = city.score(possession);
+        assertThat(score).isEqualTo(15);
+    }
+
+    @Test
+    public void test_bonus_plus_4_merveilles_4_cartes(){
         Possession possession = new Possession(10, HashSet.empty()); // 10 or donc +10 score
         city.buildDistrict(Card.DRAGON_GATE); // 6 + 2 points bonus
         city.buildDistrict(Card.UNIVERSITY); // 6 + 2 points bonus
