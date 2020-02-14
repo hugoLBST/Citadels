@@ -111,4 +111,17 @@ public class CityTest {
         int score = city.score(possession);
         assertThat(score).isEqualTo(40);
     }
+
+    @Test
+    public void it_should_test_haunted_city_and_other_districts(){
+        Possession possession = new Possession(0,HashSet.empty()); // 0 or donc 0 score
+        city.buildDistrict(Card.TEMPLE_1); // +1 score
+        city.buildDistrict(Card.WATCHTOWER_1); // +1 score
+        city.buildDistrict(Card.TAVERN_3); // +1 score
+        city.buildDistrict(Card.KEEP_1); // +3 score
+        city.buildDistrict(Card.HAUNTED_CITY); // +2 score
+        int score = city.score(possession);
+        assertThat(score).isEqualTo(11); // 8 points + 3 (bonus)
+
+    }
 }
