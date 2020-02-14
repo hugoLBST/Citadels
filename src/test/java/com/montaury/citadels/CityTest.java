@@ -40,7 +40,7 @@ public class CityTest {
         assertThat(score).isEqualTo(13); // Normalement : 10 + Bonus 5 types : 3 -> 13 au total
     }
     @Test
-    public void test_premier_joueur(){
+    public void test_bonus_plus_4_premiere_city_completee(){
         Possession possession = new Possession(0,HashSet.empty()); // 0 or donc 0 score
         city.buildDistrict(Card.MANOR_5); // +3 score
         city.buildDistrict(Card.WATCHTOWER_2); // +1 score
@@ -54,9 +54,9 @@ public class CityTest {
 
     }
     @Test
-    public void test_pas_premier_joueur(){
+    public void test_bonus_plus_2_deuxieme_city_completee(){
         Possession possession1 = new Possession(0,HashSet.empty()); // 0 or donc 0 score
-        city.buildDistrict(Card.MANOR_5); // +3 score
+        city.buildDistrict(Card.MANOR_5); // +1 score
         city.buildDistrict(Card.WATCHTOWER_2); // +1 score
         city.buildDistrict(Card.TAVERN_5); // +1 score
         city.buildDistrict(Card.CHURCH_3); // +2 score
