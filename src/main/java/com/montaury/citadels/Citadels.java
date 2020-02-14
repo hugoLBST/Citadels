@@ -22,32 +22,23 @@ import java.util.Collections;
 import java.util.Scanner;
 
 public class Citadels {
+    private static Board board = new Board();
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Hello! Quel est votre nom ? ");
         String playerName = scanner.next();
         System.out.println("Quel est votre age ? ");
         int playerAge = scanner.nextInt();
-        Board board = new Board();
         Player p = new Player(playerName, playerAge, new City(board), new HumanController());
         p.human = true;
         List<Player> players = List.of(p);
-        System.out.println("Saisir le nombre de joueurs total (entre 2 et 8): ");
-        int nbP;
-        do {
-            nbP = scanner.nextInt();
-        } while (nbP < 2 || nbP > 8);
-        for (int joueurs = 0; joueurs < nbP; joueurs += 1) {
-            Player player = new Player("Computer " + joueurs, 35, new City(board), new ComputerController());
-            player.computer = true;
-            players = players.append(player
-            );
-        }
+
+        int nombreJoueurs = saisieNombreJoueur(scanner);
+        creationOrdinateurs(nombreJoueurs, players);
+
         CardPile pioche = new CardPile(Card.all().toList().shuffle());
-        players.forEach(player -> {
-            player.add(2);
-            player.add(pioche.draw(2));
-        });
+        ajouterDeuxCartesEtDeuxOr(players, pioche);
         Player crown = players.maxBy(Player::age).get();
 
         List<Group> roundAssociations;
@@ -57,7 +48,7 @@ public class Citadels {
             List<Player> playersInOrder = List.ofAll(list);
             RandomCharacterSelector randomCharacterSelector = new RandomCharacterSelector();
             List<Character> availableCharacters = List.of(Character.ASSASSIN, Character.THIEF, Character.MAGICIAN, Character.KING, Character.BISHOP, Character.MERCHANT, Character.ARCHITECT, Character.WARLORD);
-
+//////////////////////// ON EN EST A LA
             List<Character> availableCharacters1 = availableCharacters;
             List<Character> discardedCharacters = List.empty();
             for (int i = 0; i < 1; i++) {
@@ -314,6 +305,13 @@ public class Citadels {
                 .map(Group::player));
     }
 
+    private static void ajouterDeuxCartesEtDeuxOr(List<Player> players, CardPile pioche) {
+        players.forEach(player -> {
+            player.add(2);
+            player.add(pioche.draw(2));
+        });
+    }
+
     public static void actionExecuted(Group association, String actionType, List<Group> associations) {
         System.out.println("Player " + association.player().name() + " executed action " + actionType);
         associations.map(Group::player)
@@ -347,5 +345,22 @@ public class Citadels {
 
     private static String textCard(Card card) {
         return textDistrict(card.district());
+    }
+
+    private static int saisieNombreJoueur (Scanner scanner){
+        System.out.println("Saisir le nombre de joueurs total (entre 2 et 8): ");
+        int nombreJoueurs;
+        do {
+            nombreJoueurs = scanner.nextInt();
+        } while (nombreJoueurs < 2 || nombreJoueurs > 8);
+        return nombreJoueurs;
+    }
+
+    private static void creationOrdinateurs(int nombreOrdinateurs, List<Player> players){
+        for (int joueurs = 0; joueurs < nombreOrdinateurs; joueurs ++) {
+            Player player = new Player("Computer " + joueurs, 35, new City(board), new ComputerController());
+            player.computer = true;
+            players = players.append(player);
+        }
     }
 }
