@@ -11,9 +11,9 @@ import static com.montaury.citadels.district.District.GREAT_WALL;
 import static com.montaury.citadels.district.District.HAUNTED_CITY;
 public class City {
     private static final int END_GAME_DISTRICT_NUMBER = 7;
-    private static final int BONUS_SCORE_UN_QUARTIER_DE_CHAQUE_TYPE = 3;
-    private static final int BONUS_SCORE_PREMIER_FINI = 2;
-    private static final int BONUS_SCORE_VILLE_COMPLETE = 2;
+    private static final int SCORE_BONUS_ALL_DISTRICT_TYPES = 3;
+    private static final int SCORE_BONUS_FIRST_CITY_FINISHED = 2;
+    private static final int SCORE_BONUS_CITY_COMPLETE = 2;
 
     private final Board board;
     private List<Card> districtCards = List.empty();
@@ -35,12 +35,12 @@ public class City {
 
     public int score(Possession possession) {
         Score score = new Score();
-        for(District district : districts()) score.setValeur(score.getValeur() + district.cost());
-        score.setValeur(score.getValeur() + districtsScoreBonus(possession));
-        if (gagneUnQuartierDeChaqueType()) score.setValeur(score.getValeur() + BONUS_SCORE_UN_QUARTIER_DE_CHAQUE_TYPE);
-        if (board.estPremiereVilleFinie(this)) score.setValeur(score.getValeur() + BONUS_SCORE_PREMIER_FINI);
-        if (isComplete()) score.setValeur(score.getValeur() + BONUS_SCORE_VILLE_COMPLETE);
-        return score.getValeur();
+        for(District district : districts()) score.setValue(score.getValue() + district.cost());
+        score.setValue(score.getValue() + districtsScoreBonus(possession));
+        if (winsAllDistrictTypes()) score.setValue(score.getValue() + SCORE_BONUS_ALL_DISTRICT_TYPES);
+        if (board.isFirstCompleteCity(this)) score.setValue(score.getValue() + SCORE_BONUS_FIRST_CITY_FINISHED);
+        if (isComplete()) score.setValue(score.getValue() + SCORE_BONUS_CITY_COMPLETE);
+        return score.getValue();
     }
 
     private int districtsScoreBonus(Possession possession) {
@@ -62,7 +62,7 @@ public class City {
         return score;
     }
 
-    private boolean gagneUnQuartierDeChaqueType() {
+    private boolean winsAllDistrictTypes() {
         int districtTypes[] = new int[DistrictType.values().length];
         for (District d : districts()) {
             districtTypes[d.districtType().ordinal()]++;

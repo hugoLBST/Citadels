@@ -3,12 +3,12 @@ package com.montaury.citadels;
 public class Score {
     private int valeur;
     public Score(){
-        setValeur(0);
+        setValue(0);
     }
-    public void setValeur(int valeur) {
+    public void setValue(int valeur) {
         this.valeur = valeur;
     }
-    public int getValeur() {
+    public int getValue() {
         return valeur;
     }
 }
