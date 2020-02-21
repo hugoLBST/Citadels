@@ -3,6 +3,7 @@ package com.montaury.citadels;
 import com.montaury.citadels.character.Character;
 import com.montaury.citadels.character.RandomCharacterSelector;
 import com.montaury.citadels.district.Card;
+import com.montaury.citadels.district.DestructibleDistrict;
 import com.montaury.citadels.district.District;
 import com.montaury.citadels.district.DistrictType;
 import com.montaury.citadels.player.ComputerController;
@@ -14,6 +15,7 @@ import com.montaury.citadels.round.action.DestroyDistrictAction;
 import io.vavr.Tuple;
 import io.vavr.collection.HashSet;
 import io.vavr.collection.List;
+import io.vavr.collection.Map;
 import io.vavr.collection.Set;
 
 import java.util.Collections;
@@ -272,7 +274,8 @@ public class Citadels {
                                 }
                             }
                             else if (actionType1 == "Destroy district") {
-                                // flemme...
+                                Map<Player, List<DestructibleDistrict>> playersDistricts ;
+                                group.player().controller.selectDistrictToDestroyAmong();
                             }
                             else if (actionType1 == "Rob") {
                                 Character character = group.player().controller.selectAmong(List.of(Character.MAGICIAN, Character.KING, Character.BISHOP, Character.MERCHANT, Character.ARCHITECT, Character.WARLORD)
