@@ -15,5 +15,5 @@ public class DestructibleDistrict {
     }
 
     private final Card card;
-    private final int destructionCost;
+    private int destructionCost;
 }

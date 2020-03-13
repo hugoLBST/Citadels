@@ -11,7 +11,10 @@ public enum Character {
     BISHOP(5, "Bishop", DistrictType.RELIGIOUS),
     MERCHANT(6, "Merchant", DistrictType.TRADE),
     ARCHITECT(7, "Architect"),
-    WARLORD(8, "Warlord", DistrictType.MILITARY);
+    WARLORD(8, "Warlord", DistrictType.MILITARY),
+    ABBE(9, "Abbe", DistrictType.RELIGIOUS),
+    ALCHEMIST(10,"Alchemist"),
+    ARTIST(11,"Artist");
 
     Character(int number, String name)
     {

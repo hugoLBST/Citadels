@@ -66,5 +66,5 @@ public enum District {
 
     private final int cost;
     private final DistrictType districtType;
-    private final Effect effect;
+    private Effect effect;
 }

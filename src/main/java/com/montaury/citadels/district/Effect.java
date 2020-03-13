@@ -25,13 +25,5 @@ public class Effect {
         return indestructible;
     }
 
-
-
-
-
-
-
-
-
     private final boolean indestructible;
 }

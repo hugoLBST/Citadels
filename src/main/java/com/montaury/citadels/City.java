@@ -101,6 +101,9 @@ public class City {
                         .map(card -> new DestructibleDistrict(card, destructionCost(card)));
     }
 
+    public void beautifyCard(Card card){
+        // à terminer
+    }
     private int destructionCost(Card card) {
         return card.district().cost() - (has(GREAT_WALL) && card.district() != GREAT_WALL ? 0 : (1));
     }

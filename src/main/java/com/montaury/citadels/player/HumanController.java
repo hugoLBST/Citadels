@@ -3,11 +3,11 @@ package com.montaury.citadels.player;
 import com.montaury.citadels.character.Character;
 import com.montaury.citadels.district.Card;
 import com.montaury.citadels.district.DestructibleDistrict;
+import com.montaury.citadels.district.District;
 import io.vavr.Tuple2;
 import io.vavr.collection.*;
 
 import java.util.Scanner;
-import java.util.function.Function;
 
 public class HumanController implements PlayerController {
 
@@ -19,13 +19,14 @@ public class HumanController implements PlayerController {
 
     @Override
     public String selectActionAmong(List<String> actions) {
-        displayActionsForSelection(actions);
+        displayForSelection(actions);
         return actions.get(scanner.nextInt() - 1);
     }
 
-    private void displayActionsForSelection(List<String> actions) {
-        for (int i = 0; i < actions.size(); i++) {
-            System.out.println(actions.get(i) + "(" + (i + 1) + "), ");
+
+    private static <T> void displayForSelection(List<T> T) {
+        for (int i = 0; i < T.size(); i++) {
+            System.out.println(T.get(i) + "(" + (i + 1) + "), ");
         }
     }
 
@@ -36,6 +37,12 @@ public class HumanController implements PlayerController {
         return cardsList.get(scanner.nextInt() - 1);
     }
 
+    @Override
+    public <T> T selectAmong(List<T> T) {
+        displayForSelection(T);
+        return T.get(scanner.nextInt() - 1);
+    }
+
     private void displayCardsForSelection(List<Card> cards) {
         for (int i = 0; i < cards.size(); i++) {
             System.out.println(cards.get(i).name() + "(" + (i + 1) + "), ");
@@ -43,14 +50,8 @@ public class HumanController implements PlayerController {
     }
 
     @Override
-    public Character selectAmong(List<Character> characters) {
-        displayCharactersForSelection(characters);
-        return characters.get(scanner.nextInt() - 1);
-    }
-
-    @Override
     public Player selectPlayerAmong(List<Player> players) {
-        displayPlayersForSelection(players);
+        displayForSelection(players);
         return players.get(scanner.nextInt() - 1);
     }
 
@@ -92,20 +93,8 @@ public class HumanController implements PlayerController {
         return scanner.next().equals("o");
     }
 
-    private static void displayCharactersForSelection(List<Character> characters) {
-        for (int i = 0; i < characters.size(); i++) {
-            System.out.println(characters.get(i).getName() + "(" + (i + 1) + "), ");
-        }
-    }
-
-    private static void displayPlayersForSelection(List<Player> players) {
-        for (int i = 0; i < players.size(); i++) {
-            System.out.println(players.get(i).name() + "(" + (i + 1) + "), ");
-        }
-    }
-
     private static void displayCharactersForSelection(List<Character> characters, List<Character> faceUpRevealedCharacters) {
-        displayCharactersForSelection(characters);
+        displayForSelection(characters);
         for (int i = 0; i < faceUpRevealedCharacters.size(); i++) {
             System.out.println("Ecarté: " + faceUpRevealedCharacters.get(i).getName());
         }

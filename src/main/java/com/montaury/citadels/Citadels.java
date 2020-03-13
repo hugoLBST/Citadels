@@ -1,5 +1,7 @@
 package com.montaury.citadels;
 
+import com.montaury.citadels.Actions.AbbeActions;
+import com.montaury.citadels.Actions.ArtistActions;
 import com.montaury.citadels.character.Character;
 import com.montaury.citadels.character.RandomCharacterSelector;
 import com.montaury.citadels.district.Card;
@@ -46,7 +48,7 @@ public class Citadels {
             Collections.rotate(list, -players.indexOf(crown));
             List<Player> playersInOrder = List.ofAll(list);
             RandomCharacterSelector randomCharacterSelector = new RandomCharacterSelector();
-            List<Character> availableCharacters = List.of(Character.ASSASSIN, Character.THIEF, Character.MAGICIAN, Character.KING, Character.BISHOP, Character.MERCHANT, Character.ARCHITECT, Character.WARLORD);
+            List<Character> availableCharacters = List.of(Character.ASSASSIN, Character.THIEF, Character.MAGICIAN, Character.KING, Character.BISHOP, Character.MERCHANT, Character.ARCHITECT, Character.WARLORD, Character.ABBE, Character.ARTIST, Character.ALCHEMIST);
 
             List<Character> availableCharacters1 = availableCharacters;
             List<Character> discardedCharacters;
@@ -133,6 +135,9 @@ public class Citadels {
 
                         // receive powers from the character
                         List<String> powers = null;
+                        if (group.character == Character.ABBE){
+                            powers = List.of("Receive income", "Receive 1 gold from the richest player");
+                        }
                         if (group.character == Character.ASSASSIN) {
                             powers = List.of("Kill");
                         }
@@ -156,6 +161,9 @@ public class Citadels {
                         }
                         else if (group.character == Character.WARLORD) {
                             powers = List.of("Receive income", "Destroy district");
+                        }
+                        else if (group.character == Character.ARTIST) {
+                            powers = List.of("Beautify district", "Beautify district");
                         }
                         else {
                             System.out.println("Uh oh");
@@ -214,6 +222,9 @@ public class Citadels {
                             {} else if (actionType1 == "Build district") {
                                 Card card = group.player().controller.selectAmong(group.player().buildableDistrictsInHand());
                                 group.player().buildDistrict(card);
+                                if (group.character == Character.ALCHEMIST) {
+                                    group.player().add(card.district().cost());
+                                }
                             }
                             else if (actionType1 == "Discard card for 2 coins") {
                                 Player player = group.player();
@@ -248,9 +259,12 @@ public class Citadels {
                             else if (actionType1 == "Receive 1 gold") {
                                 group.player().add(1);
                             }
+                            else if (actionType1 == "Receive 1 gold from the richest player"){
+                                AbbeActions.getOneGoldFromRichest(associations);
+                            }
                             else if (actionType1 == "Receive income") {
                                 DistrictType type = null;
-                                if (group.character == Character.BISHOP) {
+                                if (group.character == Character.BISHOP || group.character == Character.ABBE) {
                                     type = DistrictType.RELIGIOUS;
                                 }
                                 else if (group.character == Character.WARLORD) {
@@ -274,13 +288,17 @@ public class Citadels {
                                 }
                             }
                             else if (actionType1 == "Destroy district") {
-                                Map<Player, List<DestructibleDistrict>> playersDistricts ;
-                                group.player().controller.selectDistrictToDestroyAmong();
+                                District district;
                             }
                             else if (actionType1 == "Rob") {
-                                Character character = group.player().controller.selectAmong(List.of(Character.MAGICIAN, Character.KING, Character.BISHOP, Character.MERCHANT, Character.ARCHITECT, Character.WARLORD)
+                                Character character = group.player().controller.selectAmong(List.of(Character.MAGICIAN, Character.KING, Character.BISHOP, Character.MERCHANT, Character.ARCHITECT, Character.WARLORD, Character.ALCHEMIST, Character.ABBE, Character.ARTIST)
                                         .removeAll(groups.associations.find(Group::isMurdered).map(Group::character)));
                                 groups.associationToCharacter(character).peek(association -> association.stolenBy(group.player()));
+                            }
+                            else if (actionType1 == "Beautify district"){
+                                District district = group.player().controller.selectAmong(group.player().city().districts()
+                                .filter(district1 -> !district1.isDestructible()));
+                                // à terminer
                             }
                             printAction(group, actionType1, associations);
                             actionType11 = actionType1;
