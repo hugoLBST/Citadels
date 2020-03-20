@@ -63,6 +63,20 @@ public class ComputerController implements PlayerController {
     }
 
     @Override
+    public DestructibleDistrict selectDestructibleDistrictAmong(List<DestructibleDistrict> districts) {
+        int size = districts.size();
+        int item = new Random().nextInt(size); // In real life, the Random object should be rather more shared than this
+        int i = 0;
+        for(DestructibleDistrict district : districts)
+        {
+            if (i == item)
+                return district;
+            i++;
+        }
+        return null;
+    }
+
+    @Override
     public City selectCityAmong(List<City> cities){
         int size = cities.size();
         int item = new Random().nextInt(size); // In real life, the Random object should be rather more shared than this

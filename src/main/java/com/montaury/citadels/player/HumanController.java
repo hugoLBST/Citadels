@@ -50,6 +50,12 @@ public class HumanController implements PlayerController {
     }
 
     @Override
+    public DestructibleDistrict selectDestructibleDistrictAmong(List<DestructibleDistrict> districts){
+        displayForSelection(districts);
+        return districts.get(scanner.nextInt() -1);
+    }
+
+    @Override
     public City selectCityAmong(List<City> cities) {
         displayForSelection(cities);
         return cities.get(scanner.nextInt() - 1);

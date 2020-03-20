@@ -19,6 +19,7 @@ import io.vavr.collection.List;
 import io.vavr.collection.Map;
 import io.vavr.collection.Set;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Scanner;
 
@@ -266,7 +267,7 @@ public class Citadels {
                                 group.player().exchangeHandWith(playerToSwapWith);
                             }
                             else if (actionType1 == KILL) {
-                                Character characterToMurder = group.player().controller.selectCharacterAmong(List.of(Character.THIEF, Character.MAGICIAN, Character.KING, Character.BISHOP, Character.MERCHANT, Character.ARCHITECT, Character.WARLORD));
+                                Character characterToMurder = group.player().controller.selectCharacterAmong(List.of(Character.ASSASSIN, Character.THIEF, Character.MAGICIAN, Character.KING, Character.BISHOP, Character.MERCHANT, Character.ARCHITECT, Character.WARLORD, Character.ABBE, Character.ARTIST, Character.ALCHEMIST));
                                 groups.associationToCharacter(characterToMurder).peek(Group::murder);
                             }
                             else if (actionType1 == PICK_2_CARDS) {
@@ -307,8 +308,31 @@ public class Citadels {
                                 }
                             }
                             else if (actionType1 == DESTROY_DISTRICT) {
+                                /* List<Player> players = List.empty();
+                                for(Group association : associations){
+                                    players.append(association.player());
+                                }
+                                Player player = group.player().controller.selectPlayerAmong(players); // Choix joueur pour détruire
+                                City city = player.city();
+                                Set<Card> cards = null;
+                                for(DestructibleDistrict district : city.districtsDestructibleBy(player)){
+                                    cards.add(district.card());
+                                }
+                                Card card = group.player().controller.selectCardAmong(cards);
+                                player.city().destroyDistrict(card);
+                                group.player().pay(card.district().cost()-1); */ // Ne marche pas, renvoie nullPointer ou boucle infinie
                                 Map<Player, List<DestructibleDistrict>> districtsDestructible = DestroyDistrictAction.districtsDestructibleBy(groups, group.player());
-
+                                DestructibleDistrict districtToDestruct = group.player().controller.selectDistrictToDestroyAmong(districtsDestructible);
+                                group.player().pay(districtToDestruct.destructionCost());
+                                Player playerDestructed = null;
+                                for(Player p : districtsDestructible.keySet()){
+                                    for(Card c : p.cards()){
+                                        if(c.equals(districtToDestruct.card())){
+                                            playerDestructed = p;
+                                        }
+                                    }
+                                }
+                                playerDestructed.city().destroyDistrict(districtToDestruct.card()); // Ne marche pas, renvoie nullPointerException
                             }
                             else if (actionType1 == ROB) {
                                 Character character = group.player().controller.selectCharacterAmong(List.of(Character.MAGICIAN, Character.KING, Character.BISHOP, Character.MERCHANT, Character.ARCHITECT, Character.WARLORD, Character.ALCHEMIST, Character.ABBE, Character.ARTIST)
@@ -316,9 +340,9 @@ public class Citadels {
                                 groups.associationToCharacter(character).peek(association -> association.stolenBy(group.player()));
                             }
                             else if (actionType1 == BEAUTIFY_DISTRICT){
-                                District district = group.player().controller.selectDistrictAmong(group.player().city().districts()
-                                .filter(district1 -> !district1.isDestructible()));
-                                // à terminer
+                                DestructibleDistrict district = group.player().controller.selectDestructibleDistrictAmong(group.player().city().districtsDestructibleBy(group.player()));
+                                // monter prix de destruction du quartier de 1
+                                district.setDestructionCost(district.destructionCost()+1);
                             }
                             printAction(group, actionType1, associations);
                             actionType11 = actionType1;

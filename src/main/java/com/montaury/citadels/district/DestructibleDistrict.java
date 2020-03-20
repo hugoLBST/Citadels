@@ -14,6 +14,9 @@ public class DestructibleDistrict {
         return destructionCost;
     }
 
+    public void setDestructionCost(int dc){
+        this.destructionCost = dc;
+    }
     private final Card card;
     private int destructionCost;
 }
