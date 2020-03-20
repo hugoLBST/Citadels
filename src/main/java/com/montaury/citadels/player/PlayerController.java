@@ -1,5 +1,6 @@
 package com.montaury.citadels.player;
 
+import com.montaury.citadels.City;
 import com.montaury.citadels.character.Character;
 import com.montaury.citadels.district.Card;
 import com.montaury.citadels.district.DestructibleDistrict;
@@ -13,9 +14,13 @@ public interface PlayerController {
 
     String selectActionAmong(List<String> actions);
 
-    Card selectAmong(Set<Card> cards);
+    Card selectCardAmong(Set<Card> cards);
 
-    <T> T selectAmong(List<T> T);
+    District selectDistrictAmong(List<District> districts);
+
+    Character selectCharacterAmong(List<Character> characters);
+
+    City selectCityAmong(List<City> cities);
 
     Player selectPlayerAmong(List<Player> players);
 

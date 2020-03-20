@@ -1,5 +1,6 @@
 package com.montaury.citadels.player;
 
+import com.montaury.citadels.City;
 import com.montaury.citadels.character.Character;
 import com.montaury.citadels.district.Card;
 import com.montaury.citadels.district.DestructibleDistrict;
@@ -31,16 +32,27 @@ public class HumanController implements PlayerController {
     }
 
     @Override
-    public Card selectAmong(Set<Card> cards) {
+    public Card selectCardAmong(Set<Card> cards) {
         List<Card> cardsList = cards.toList();
         displayCardsForSelection(cardsList);
         return cardsList.get(scanner.nextInt() - 1);
     }
 
     @Override
-    public <T> T selectAmong(List<T> T) {
-        displayForSelection(T);
-        return T.get(scanner.nextInt() - 1);
+    public Character selectCharacterAmong(List<Character> characters) {
+        displayForSelection(characters);
+        return characters.get(scanner.nextInt() - 1);
+    }
+    @Override
+    public District selectDistrictAmong(List<District> districts) {
+        displayForSelection(districts);
+        return districts.get(scanner.nextInt() - 1);
+    }
+
+    @Override
+    public City selectCityAmong(List<City> cities) {
+        displayForSelection(cities);
+        return cities.get(scanner.nextInt() - 1);
     }
 
     private void displayCardsForSelection(List<Card> cards) {
