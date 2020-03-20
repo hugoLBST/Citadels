@@ -324,6 +324,8 @@ public class Citadels {
                                 Map<Player, List<DestructibleDistrict>> districtsDestructible = DestroyDistrictAction.districtsDestructibleBy(groups, group.player());
                                 DestructibleDistrict districtToDestruct = group.player().controller.selectDistrictToDestroyAmong(districtsDestructible);
                                 group.player().pay(districtToDestruct.destructionCost());
+                                if(districtToDestruct.getBeautiful())
+                                    districtToDestruct.setDestructionCost(districtToDestruct.destructionCost()-1);
                                 Player playerDestructed = null;
                                 for(Player p : districtsDestructible.keySet()){
                                     for(Card c : p.cards()){
@@ -343,6 +345,8 @@ public class Citadels {
                                 DestructibleDistrict district = group.player().controller.selectDestructibleDistrictAmong(group.player().city().districtsDestructibleBy(group.player()));
                                 // monter prix de destruction du quartier de 1
                                 district.setDestructionCost(district.destructionCost()+1);
+                                // mettre quartier embelli à true
+                                district.setBeautiful(true);
                             }
                             printAction(group, actionType1, associations);
                             actionType11 = actionType1;

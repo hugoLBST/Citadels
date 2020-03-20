@@ -19,4 +19,12 @@ public class DestructibleDistrict {
     }
     private final Card card;
     private int destructionCost;
+    private boolean beatiful;
+
+    public void setBeautiful(boolean b) {
+        this.beatiful=b;
+    }
+    public boolean getBeautiful(){
+        return this.beatiful;
+    }
 }
